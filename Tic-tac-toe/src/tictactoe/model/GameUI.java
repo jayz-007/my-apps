@@ -18,35 +18,44 @@ public class GameUI {
 				checkGameStatus(player2, line, newGame);
 			}
 			newGame = resetBoard(newGame);
+			
 
 		}
 
 	}
 
-	public boolean playerGUI(Player player, Scanner line, GameLogic newGame) {
-		System.out.println("___________________");
-		displayBoard(newGame);
-		System.out.println(player.getPlayerName() + " choose a number to draw");
-		String num = line.nextLine();
-		if (newGame.drawMyCode(player, num) == false) {
-			System.out.println("The place is already marked /n Choose other number");
-			playerGUI(player, line, newGame);
-		}
-		newGame.checkSequence(Integer.parseInt(num), player);
-		if (newGame.getFlag() == 1) {
+	public boolean dsiplayPlayerGUI(Player player, Scanner line, GameLogic newGame) {
+		if (newGame.getFlag() < 9) {
+			newGame.incrementFlag();
 			System.out.println("___________________");
-			displayWinningSequence(newGame, player.getPlayerCode()+" ");
-			System.out.println(player.getPlayerName() + " won the game");
+			displayBoard(newGame);
+			System.out.println(player.getPlayerName() + " choose a number to draw");
+			String num = line.nextLine();
+			if (newGame.drawMyCode(player, num) == false) {
+				System.err.println("The place is already marked \n"+ player.getPlayerName()+" choose other number");
+				dsiplayPlayerGUI(player, line, newGame);
+			}
+			newGame.checkSequence(Integer.parseInt(num), player);
+			if (newGame.getEndGame() == 1) {
+				System.out.println("___________________");
+				displayWinningSequence(newGame, player.getPlayerCode() + " ");
+				System.err.println(player.getPlayerName() + " won the game");
 
+				return true;
+			}
+		}else {
+			System.err.println("Game is a draw");
+			newGame.resetFlag();
 			return true;
 		}
 		return false;
 	}
 
 	public boolean checkGameStatus(Player player, Scanner line, GameLogic newGame) {
-		if (playerGUI(player, line, newGame)) {
+		if (dsiplayPlayerGUI(player, line, newGame)) {
 			System.out.println("Do you want to play another Game?yes or no ");
 			this.comtinueGame = line.nextLine().toLowerCase();
+			
 			return true;
 
 		}
@@ -67,7 +76,7 @@ public class GameUI {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				if (str.contentEquals(newGame.getBoard()[i][j]))
-					System.out.print(str );
+					System.out.print(str);
 				else
 					System.out.print("* ");
 			}
@@ -77,7 +86,7 @@ public class GameUI {
 	}
 
 	public GameLogic resetBoard(GameLogic newGame) {
-		if (newGame.getFlag() == 1) {
+		if (newGame.getEndGame() == 1) {
 			GameLogic newgame1 = new GameLogic();
 			newGame = newgame1;
 			newgame1 = null;

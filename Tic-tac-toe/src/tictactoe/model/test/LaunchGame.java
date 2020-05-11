@@ -8,10 +8,7 @@ import tictactoe.model.Player;
 public class LaunchGame {
 	public static void main(String args[]) {
 		new GameUI().startGame();
-	
-		
 
 	}
-	
-	
+
 }
