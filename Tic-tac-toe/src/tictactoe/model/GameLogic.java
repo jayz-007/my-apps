@@ -27,8 +27,11 @@ public class GameLogic {
 		num = num.concat(" ");
 		String number = board[row][column];
 		if (number.equals(num)) {
+			incrementFlag();
 			board[row][column] = number.replace(number, p.getPlayerCode() + " ");
 			return true;
+			
+			
 		}
 		return false;
 	}
@@ -83,6 +86,7 @@ public class GameLogic {
 		case 2:
 			if (checkLeft(row, column, PlayerCode)) {
 				if (checkLeft(row, --column, PlayerCode)) {
+					System.out.println("endgame is 1");
 					endgame = 1;
 					break;
 				}

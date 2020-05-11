@@ -25,15 +25,18 @@ public class GameUI {
 	}
 
 	public boolean dsiplayPlayerGUI(Player player, Scanner line, GameLogic newGame) {
+		
 		if (newGame.getFlag() < 9) {
-			newGame.incrementFlag();
+			
 			System.out.println("___________________");
 			displayBoard(newGame);
 			System.out.println(player.getPlayerName() + " choose a number to draw");
 			String num = line.nextLine();
 			if (newGame.drawMyCode(player, num) == false) {
 				System.err.println("The place is already marked \n"+ player.getPlayerName()+" choose other number");
-				dsiplayPlayerGUI(player, line, newGame);
+				return(dsiplayPlayerGUI(player, line, newGame));
+				
+				
 			}
 			newGame.checkSequence(Integer.parseInt(num), player);
 			if (newGame.getEndGame() == 1) {
@@ -44,6 +47,7 @@ public class GameUI {
 				return true;
 			}
 		}else {
+			displayBoard(newGame);
 			System.err.println("Game is a draw");
 			newGame.resetFlag();
 			return true;
