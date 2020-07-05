@@ -2,11 +2,11 @@ package tictactoe.model;
 
 public class Player {
 	private String playerName;
-	private String PlayerCode;
+	private String PlayerMark;
 
-	public Player(String name, String playercode) {
+	public Player(String name, String playerMark) {
 		this.playerName = name;
-		this.PlayerCode = playercode;
+		this.PlayerMark = playerMark;
 	}
 
 	public String getPlayerName() {
@@ -14,7 +14,7 @@ public class Player {
 	}
 
 	public String getPlayerCode() {
-		return PlayerCode;
+		return PlayerMark;
 	}
 
 }

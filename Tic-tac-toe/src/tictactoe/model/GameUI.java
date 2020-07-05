@@ -4,14 +4,15 @@ import java.util.Scanner;
 
 public class GameUI {
 	private String comtinueGame = "yes";
+	GameLogic newGame = new GameLogic();
 
 	public void startGame() {
 		Scanner player = new Scanner(System.in);
 		System.out.println("Enter player1 name:");
-		Player player1 = new Player(player.nextLine(), "X");
+		Player player1 = new Player(player.nextLine(), new PlayerMarkX().getPlayerMark());
 		System.out.println("Enter player2 name:");
-		Player player2 = new Player(player.nextLine(), "O");
-		GameLogic newGame = new GameLogic();
+		Player player2 = new Player(player.nextLine(), new PlayerMarkO().getPlayerMark());
+		
 		while (comtinueGame.equals("yes")) {
 			Scanner line = new Scanner(System.in);
 			if (checkGameStatus(player1, line, newGame) == false) {
@@ -59,7 +60,6 @@ public class GameUI {
 		if (dsiplayPlayerGUI(player, line, newGame)) {
 			System.out.println("Do you want to play another Game?yes or no ");
 			this.comtinueGame = line.nextLine().toLowerCase();
-			
 			return true;
 
 		}
