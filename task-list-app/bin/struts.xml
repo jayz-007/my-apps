@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<constant name="struts.action.excludePattern"
+		value="/botdetectcaptcha" />
+	<package name="main" extends="struts-default">
+
+		<interceptors>
+			<interceptor name="autinterceptor"
+				class="com.techlab.interceptor.AuthInterceptor"></interceptor>
+		</interceptors>
+
+		<!-- User action -->
+
+		<action name="userDisplay">
+			<result type="chain">authUser</result>
+		</action>
+
+		<action name="authUser">
+			<interceptor-ref name="autinterceptor"></interceptor-ref>
+			<result type="chain" name="admin">authUserSuccess</result>
+			<result type="chain" name="user">authtaskDisplaySuccess</result>
+
+			<result name="failure">/WEB-INF/index.jsp</result>
+		</action>
+
+		<action name="authUserSuccess"
+			class="com.techlab.action.UserDisplayAction">
+			<result name="success">user.jsp</result>
+		</action>
+
+
+
+
+		<action name="getUserAddPage">
+			<result type="chain">authgetUserAddPage</result>
+		</action>
+
+		<action name="authgetUserAddPage">
+			<interceptor-ref name="autinterceptor"></interceptor-ref>
+			<result name="admin" type="chain">authgetUserAddPageSuccess</result>
+			<result type="chain" name="user">authtaskDisplay</result>
+			<result name="failure">/WEB-INF/index.jsp</result>
+		</action>
+
+		<action name="authgetUserAddPageSuccess"
+			class="com.techlab.action.AddUserAction">
+			<result name="success">Adduser.jsp</result>
+		</action>
+
+		<action name="addUser" class="com.techlab.action.AddUserAction"
+			method="doAdd">
+			<result name="success" type="redirectAction">userDisplay</result>
+			<result name="input">Adduser.jsp</result>
+		</action>
+
+		<action name="authgetUserUpdatePage">
+			<interceptor-ref name="autinterceptor"></interceptor-ref>
+			<result type="chain" name="admin">authgetUserUpdatePageSuccess
+			</result>
+			<result type="chain" name="user">authtaskDisplay</result>
+			<result name="failure">/WEB-INF/index.jsp</result>
+		</action>
+
+		<action name="authgetUserUpdatePageSuccess"
+			class="com.techlab.action.UserUpdateAction">
+
+			<result name="success">updateUser.jsp</result>
+		</action>
+
+		<action name="getUserUpdatePage">
+			<result type="chain">authgetUserUpdatePage</result>
+		</action>
+
+		<action name="updateUser"
+			class="com.techlab.action.UserUpdateAction" method="doUpdate">
+			<result name="success" type="redirectAction">userDisplay</result>
+		</action>
+
+		<action name="deleteUser"
+			class="com.techlab.action.DeleteUserAction">
+			<result name="success" type="redirectAction">userDisplay</result>
+		</action>
+
+		<action name="blockUser"
+			class="com.techlab.action.BlockUserAction"
+			method="doBlockUnblockUser">
+			<result name="success" type="redirectAction">userDisplay</result>
+		</action>
+
+		<!-- Task action -->
+
+		<action name="authtaskDisplay">
+			<interceptor-ref name="autinterceptor"></interceptor-ref>
+			<result type="chain" name="admin">authtaskDisplaySuccess</result>
+			<result type="chain" name="user">authtaskDisplaySuccess</result>
+			<result name="failure">/WEB-INF/index.jsp</result>
+		</action>
+
+		<action name="authtaskDisplaySuccess"
+			class="com.techlab.action.TaskDisplayAction">
+			<result name="success">Tasks.jsp</result>
+		</action>
+
+		<action name="tasksDisplay">
+			<result type="chain">authtaskDisplay</result>
+		</action>
+
+		<action name="authgetTaskAddPage">
+			<interceptor-ref name="autinterceptor"></interceptor-ref>
+			<result name="admin" type="chain">authgetTaskAddPageSuccess</result>
+			<result name="user" type="chain">authgetTaskAddPageSuccess</result>
+			<result name="failure">/WEB-INF/index.jsp</result>
+		</action>
+
+		<action name="authgetTaskAddPageSuccess">
+			<result>addTask.jsp</result>
+		</action>
+
+
+		<action name="getTaskAddPage">
+			<result type="chain">authgetTaskAddPage</result>
+		</action>
+
+		<action name="addTask" class="com.techlab.action.TaskAddAction"
+			method="doAdd">
+
+			<result name="success" type="redirectAction">tasksDisplay</result>
+			<result name="input">addTask.jsp</result>
+		</action>
+
+		<action name="authgetTaskUpdatePage">
+			<interceptor-ref name="autinterceptor"></interceptor-ref>
+			<result name="user" type="chain">authgetTaskUpdatePageSuccess
+			</result>
+			<result name="admin" type="chain">authgetTaskUpdatePageSuccess
+			</result>
+			<result name="failure">/WEB-INF/index.jsp</result>
+		</action>
+
+		<action name="authgetTaskUpdatePageSuccess"
+			class="com.techlab.action.TaskUpdateAction">
+			<result name="success">updateTask.jsp</result>
+		</action>
+
+		<action name="getTaskUpdatePage">
+			<result type="chain">authgetTaskUpdatePage</result>
+		</action>
+
+		<action name="updateTask"
+			class="com.techlab.action.TaskUpdateAction" method="doUpdate">
+			<result name="success" type="redirectAction">tasksDisplay</result>
+		</action>
+
+
+		<action name="deleteTask"
+			class="com.techlab.action.TaskDeleteAction">
+			<result name="success" type="redirectAction">tasksDisplay</result>
+		</action>
+
+		<action name="checkTask"
+			class="com.techlab.action.TaskDisplayAction" method="doCheck">
+			<result type="redirect" name="success">tasksDisplay</result>
+		</action>
+
+
+		<!-- Subtask action -->
+		<action name="authSubtasksDisplay">
+			<interceptor-ref name="autinterceptor"></interceptor-ref>
+			<result type="chain" name="admin">SubtasksDisplaySuccess</result>
+			<result type="chain" name="user">SubtasksDisplaySuccess</result>
+			<result name="failure">/WEB-INF/index.jsp</result>
+		</action>
+
+		<action name="SubtasksDisplaySuccess"
+			class="com.techlab.action.SubTaskDisplayAction">
+			<result>subTasks.jsp</result>
+		</action>
+
+		<action name="SubtasksDisplay">
+			<result type="chain">authSubtasksDisplay</result>
+		</action>
+
+		<action name="authgetSubTaskAddPage">
+			<interceptor-ref name="autinterceptor"></interceptor-ref>
+			<result type="chain" name="admin">authgetSubTaskAddPageSuccess
+			</result>
+			<result type="chain" name="user">authgetSubTaskAddPageSuccess
+			</result>
+			<result name="failure">/WEB-INF/index.jsp</result>
+		</action>
+
+		<action name="authgetSubTaskAddPageSuccess">
+			<result>addSubTask.jsp</result>
+		</action>
+
+
+		<action name="getSubTaskAddPage">
+			<result type="chain">authgetSubTaskAddPage</result>
+		</action>
+
+		<action name="addSubTask"
+			class="com.techlab.action.SubTaskAddAction" method="doAdd">
+			<result name="success" type="redirectAction">SubtasksDisplay</result>
+			<result name="input">addSubTask.jsp</result>
+		</action>
+
+		<action name="authgetSubTaskUpdatePage">
+			<interceptor-ref name="autinterceptor"></interceptor-ref>
+			<result type="chain" name="admin">authgetSubTaskUpdatePageSuccess
+			</result>
+			<result type="chain" name="user">authgetSubTaskUpdatePageSuccess
+			</result>
+			<result name="failure">/WEB-INF/index.jsp</result>
+		</action>
+
+		<action name="authgetSubTaskUpdatePageSuccess"
+			class="com.techlab.action.SubTaskUpdateAction">
+			<result name="success">updateSubTask.jsp</result>
+		</action>
+
+
+		<action name="getSubTaskUpdatePage">
+			<result type="chain">authgetSubTaskUpdatePage</result>
+		</action>
+
+		<action name="updateSubTask"
+			class="com.techlab.action.SubTaskUpdateAction" method="doUpdate">
+			<result name="success" type="redirectAction">SubtasksDisplay</result>
+		</action>
+
+		<action name="deleteSubTask"
+			class="com.techlab.action.SubTaskDeleteAction">
+			<result name="success" type="redirectAction">SubtasksDisplay</result>
+		</action>
+
+		<action name="checkSubTask"
+			class="com.techlab.action.SubTaskDisplayAction" method="doCheck">
+			<result type="redirect" name="success">SubtasksDisplay</result>
+		</action>
+
+		<!-- Home action -->
+
+		<action name="getRegisterPage">
+			<result>Register.jsp</result>
+		</action>
+
+		<action name="register"
+			class="com.techlab.action.RegisterUserAction" method="doAdd">
+			<result name="success" type="redirectAction">home</result>
+			<result name="input">Register.jsp</result>
+		</action>
+
+		<action name="getLoginPage">
+			<result>login.jsp</result>
+		</action>
+
+		<action name="home">
+			<result>home.jsp</result>
+		</action>
+
+		<action name="LoginAuthentication"
+			class="com.techlab.action.LoginAuthentication">
+			<result name="input">login.jsp</result>
+			<result name="admin" type="redirectAction">userDisplay</result>
+			<result name="user" type="redirectAction">tasksDisplay</result>
+			<result name="blocked">blocked.jsp</result>
+		</action>
+
+		<action name="Logout" class="com.techlab.action.LogoutAction">
+			<result name="success">/WEB-INF/index.jsp</result>
+		</action>
+
+
+
+
+
+	</package>
+</struts>
